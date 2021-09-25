@@ -5,6 +5,7 @@
 , fetchgit
 , removeReferencesTo
 , go
+, rsync
 }:
 let
 
@@ -21,6 +22,7 @@ let
     , allowGoReference ? false
     , meta ? { }
     , passthru ? { }
+    , customVendorSrc ? null
     , ...
     }@attrs:
     let
@@ -70,7 +72,14 @@ let
 
             go run ${./symlink.go}
             ${lib.concatStringsSep "\n" localReplaceCommands}
-
+          '' +
+          (if customVendorSrc == null
+              then ""
+              else ''
+                ${rsync} -a ${customVendorSrc}/ vendor/
+              ''
+          ) +
+          ''
             find vendor
 
             mv vendor $out

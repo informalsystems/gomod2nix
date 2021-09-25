@@ -76,7 +76,7 @@ let
           (if customVendorSrc == null
               then ""
               else ''
-                ${rsync} -a ${customVendorSrc}/ vendor/
+                ${rsync}/bin/rsync -a ${customVendorSrc}/ vendor/
               ''
           ) +
           ''

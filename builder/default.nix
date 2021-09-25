@@ -72,18 +72,16 @@ let
 
             go run ${./symlink.go}
             ${lib.concatStringsSep "\n" localReplaceCommands}
+            find vendor
+
+            mv vendor $out
           '' +
           (if customVendorSrc == null
               then ""
               else ''
-                ${rsync}/bin/rsync -a ${customVendorSrc}/ vendor/
+                ${rsync}/bin/rsync -a ${customVendorSrc}/ $out/vendor/
               ''
-          ) +
-          ''
-            find vendor
-
-            mv vendor $out
-          ''
+          )
         );
 
       removeReferences = [ ] ++ lib.optional (!allowGoReference) go;

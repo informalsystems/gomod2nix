@@ -5,7 +5,6 @@
 , fetchgit
 , removeReferencesTo
 , go
-, rsync
 }:
 let
 

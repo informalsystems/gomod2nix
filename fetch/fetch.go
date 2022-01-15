@@ -82,10 +82,6 @@ func FetchPackages(goModPath string, goSumPath string, goMod2NixPath string, dep
 	}
 
 	log.WithFields(log.Fields{
-		"replace": replace,
-	}).Info("Logging replace map")
-
-	log.WithFields(log.Fields{
 		"sumPath": goSumPath,
 	}).Info("Parsing go.sum")
 

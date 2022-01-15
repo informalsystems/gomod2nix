@@ -37,6 +37,8 @@ func worker(id int, caches []map[string]*types.Package, jobs <-chan *packageJob,
 		log.WithFields(log.Fields{
 			"workerId":      id,
 			"goPackagePath": j.goPackagePath,
+			"importPath": j.importPath,
+			"sumVersion": j.sumVersion,
 		}).Info("Worker received job")
 
 		pkg, err := fetchPackage(caches, j.importPath, j.goPackagePath, j.sumVersion)

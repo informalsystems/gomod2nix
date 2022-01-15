@@ -114,8 +114,14 @@ func FetchPackages(goModPath string, goSumPath string, goMod2NixPath string, dep
 	for importPath, sumVersion := range sumVersions {
 		// Check for replacement path (only original goPackagePath is recorded in go.sum)
 		goPackagePath := importPath
+    log.WithFields(log.Fields{
+      "orig path": importPath,
+    }).Info("Looking for replacement")
 		v, ok := replace[goPackagePath]
 		if ok {
+      log.WithFields(log.Fields{
+        "replace v": v,
+      }).Info("Found replacement")
 			goPackagePath = v
 		}
 

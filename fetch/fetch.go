@@ -245,9 +245,9 @@ func fetchPackage(caches []map[string]*types.Package, importPath string, goPacka
         }).Error("Fetching failed")
         return nil, originalErr
       }
-		}
-
-		rev = newRev
+		} else {
+		  rev = newRev
+    }
 	}
 
 	var output *prefetchOutput

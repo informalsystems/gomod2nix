@@ -217,7 +217,7 @@ func fetchPackage(caches []map[string]*types.Package, importPath string, goPacka
 	log.WithFields(log.Fields{
 		"goPackagePath": goPackagePath,
 		"rev":           rev,
-		"repoRoot.Repo":      repoRoot.Repo,
+		"repoRoot":      repoRoot,
 		"importPath":      importPath,
 		"sumVersion":      sumVersion,
 	}).Info("Cache miss, fetching")

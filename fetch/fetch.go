@@ -271,7 +271,7 @@ func fetchPackage(caches []map[string]*types.Package, importPath string, goPacka
 	}
 
 	return &types.Package{
-		GoPackagePath: goPackagePath,
+		GoPackagePath: importPath,
 		URL:           repoRoot.Repo,
 		Rev:           output.Rev,
 		Sha256:        output.Sha256,

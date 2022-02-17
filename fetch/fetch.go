@@ -112,7 +112,7 @@ func FetchPackages(goModPath string, goSumPath string, goMod2NixPath string, dep
 		goPackagePath := importPath
 		v, ok := replace[goPackagePath]
 		if ok {
-			goPackagePath = v
+			importPath = v
 		}
 
 		jobs <- &packageJob{
@@ -271,7 +271,7 @@ func fetchPackage(caches []map[string]*types.Package, importPath string, goPacka
 	}
 
 	return &types.Package{
-		GoPackagePath: importPath,
+		GoPackagePath: goPackagePath,
 		URL:           repoRoot.Repo,
 		Rev:           output.Rev,
 		Sha256:        output.Sha256,

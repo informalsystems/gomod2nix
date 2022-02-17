@@ -78,7 +78,7 @@ func FetchPackages(goModPath string, goSumPath string, goMod2NixPath string, dep
 	// Map repos -> replacement repo
 	replace := make(map[string]string)
 	for _, repl := range mod.Replace {
-		replace[repl.Old.Path] = repl.New.Path
+		replace[repl.New.Path] = repl.Old.Path
 	}
 
 	log.WithFields(log.Fields{
@@ -112,7 +112,7 @@ func FetchPackages(goModPath string, goSumPath string, goMod2NixPath string, dep
 		goPackagePath := importPath
 		v, ok := replace[goPackagePath]
 		if ok {
-			importPath = v
+			goPackagePath = v
 		}
 
 		jobs <- &packageJob{
@@ -229,25 +229,13 @@ func fetchPackage(caches []map[string]*types.Package, importPath string, goPacka
 			"--url", repoRoot.Repo,
 			"--rev", newRev).Output()
 		if err != nil {
-      log.WithFields(log.Fields{
-        "goPackagePath": goPackagePath,
-        "branch":        rev,
-      }).Info("Fetching failed, retrying with rev as branch")
-      stdout, err = exec.Command(
-        "nix-prefetch-git",
-        "--quiet",
-        "--fetch-submodules",
-        "--url", repoRoot.Repo,
-        "--branch-name", rev).Output()
-      if err != nil {
-        log.WithFields(log.Fields{
-          "goPackagePath": goPackagePath,
-        }).Error("Fetching failed")
-        return nil, originalErr
-      }
-		} else {
-		  rev = newRev
-    }
+			log.WithFields(log.Fields{
+				"goPackagePath": goPackagePath,
+			}).Error("Fetching failed")
+			return nil, originalErr
+		}
+
+		rev = newRev
 	}
 
 	var output *prefetchOutput
